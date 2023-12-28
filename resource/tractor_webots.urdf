@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<robot name="Tractor">
+    <webots>
+        <plugin type="webots_ros2_tractor.tractor_driver.TractorDriver" />
+    </webots>
+</robot>
