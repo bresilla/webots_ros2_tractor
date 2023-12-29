@@ -1,5 +1,6 @@
 import rclpy
 from ackermann_msgs.msg import AckermannDrive
+from geometry_msgs.msg import Twist
 
 
 class TractorDriver:
@@ -29,10 +30,15 @@ class TractorDriver:
         rclpy.init(args=None)
         self.__node = rclpy.create_node('tractor_node')
         self.__node.create_subscription(AckermannDrive, 'cmd_ackermann', self.__cmd_ackermann_callback, 1)
+        self.__node.create_subscription(Twist, 'cmd_vel', self.__cmd_vel_callback, 1)
 
     def __cmd_ackermann_callback(self, message):
         self.set_speed(message.speed)
         self.change_manual_steer_angle(message.steering_angle)
+
+    def __cmd_vel_callback(self, message):
+        self.set_speed(message.linear.x)
+        self.set_steering_angle(message.angular.z)
 
 
     def set_speed(self, kmh):
